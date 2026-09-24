@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import type { Case } from "../domain/types";
-import { createRepository } from "./repository";
+import { createLocalRepository, createRepository } from "./repository";
 
 function createMemoryStorage(initial: Record<string, string> = {}) {
   const data = new Map(Object.entries(initial));
@@ -76,5 +76,12 @@ describe("createRepository", () => {
   it("throws when the stored data is corrupted", () => {
     const corrupted = createMemoryStorage({ "causas.cases": '{"not":"an array"}' });
     expect(() => createRepository(corrupted)).toThrow("Corrupted data");
+  });
+
+  it("persists data in localStorage when using the local repository", () => {
+    window.localStorage.clear();
+    createLocalRepository().saveCase(newCase);
+    expect(createLocalRepository().getCase("ca-new")).toEqual(newCase);
+    expect(window.localStorage.getItem("causas.cases")).toContain("ca-new");
   });
 });

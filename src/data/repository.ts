@@ -64,3 +64,8 @@ export function createRepository(storage: Storage): Repository {
     listClients: () => load<Client>(KEYS.clients),
   };
 }
+
+/** Repository backed by the browser `localStorage`. */
+export function createLocalRepository(): Repository {
+  return createRepository(window.localStorage);
+}

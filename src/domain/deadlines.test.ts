@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { addBusinessDays, isOverdue } from "./deadlines";
+import { addBusinessDays, isOverdue, todayIso } from "./deadlines";
 
 describe("addBusinessDays", () => {
   it("adds business days within the same week", () => {
@@ -56,5 +56,11 @@ describe("isOverdue", () => {
 
   it("rejects invalid dates", () => {
     expect(() => isOverdue("2026-13-45", "2026-03-02")).toThrow("Invalid ISO date");
+  });
+});
+
+describe("todayIso", () => {
+  it("formats the given date as an ISO date", () => {
+    expect(todayIso(new Date("2026-03-02T15:30:00Z"))).toBe("2026-03-02");
   });
 });

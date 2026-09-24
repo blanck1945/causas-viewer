@@ -13,3 +13,62 @@ body {
   margin: 0 auto;
   padding: 1.5rem;
 }
+
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.filters label,
+.entry-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.case-list {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.case-list th,
+.case-list td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #d9e2ec;
+  text-align: left;
+}
+
+.overdue {
+  color: #b42318;
+  font-weight: 600;
+}
+
+.empty {
+  color: #52606d;
+}
+
+.timeline ol {
+  list-style: none;
+  padding: 0;
+}
+
+.timeline li {
+  display: flex;
+  gap: 1rem;
+  padding: 0.25rem 0;
+}
+
+.timeline time {
+  font-variant-numeric: tabular-nums;
+  color: #52606d;
+}
+
+.entry-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 28rem;
+}

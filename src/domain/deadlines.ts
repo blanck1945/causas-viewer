@@ -45,3 +45,8 @@ export function isOverdue(deadlineIso: string | null, todayIso: string): boolean
   }
   return parseIso(deadlineIso).getTime() < parseIso(todayIso).getTime();
 }
+
+/** Returns the current date as an ISO date (UTC). */
+export function todayIso(now: Date = new Date()): string {
+  return toIso(now);
+}
