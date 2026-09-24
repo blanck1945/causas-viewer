@@ -2,6 +2,11 @@ export const es = {
   appTitle: "Causas",
   appSubtitle: "Gestión y seguimiento de causas",
   overdueCount: "Plazos vencidos",
+  sort: {
+    label: "Ordenar por",
+    none: "Sin orden",
+    deadline: "Próximo vencimiento",
+  },
   status: {
     active: "Activa",
     archived: "Archivada",
