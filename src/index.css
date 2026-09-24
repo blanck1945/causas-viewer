@@ -28,14 +28,17 @@ body {
   font-size: 0.875rem;
 }
 
-.case-list {
+.case-list,
+.client-list {
   width: 100%;
   border-collapse: collapse;
   background: #fff;
 }
 
 .case-list th,
-.case-list td {
+.case-list td,
+.client-list th,
+.client-list td {
   padding: 0.5rem 0.75rem;
   border-bottom: 1px solid #d9e2ec;
   text-align: left;
@@ -71,4 +74,9 @@ body {
   flex-direction: column;
   gap: 0.75rem;
   max-width: 28rem;
+}
+
+.nav {
+  display: flex;
+  gap: 1rem;
 }

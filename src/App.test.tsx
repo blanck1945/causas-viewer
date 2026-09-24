@@ -46,4 +46,11 @@ describe("App", () => {
     renderAt("/cases/ca-2");
     expect(screen.getByRole("heading", { name: /concurso preventivo/ })).toBeTruthy();
   });
+
+  it("renders the clients page and links to it from the navigation", () => {
+    renderAt("/");
+    fireEvent.click(screen.getByRole("link", { name: es.nav.clients }));
+    expect(screen.getByRole("heading", { name: es.clients.title })).toBeTruthy();
+    expect(screen.getByText("Julián Ortega")).toBeTruthy();
+  });
 });
