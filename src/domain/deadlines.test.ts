@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { addBusinessDays, isOverdue, todayIso } from "./deadlines";
+import { addBusinessDays, isOverdue, isWithinBusinessDays, todayIso } from "./deadlines";
 
 describe("addBusinessDays", () => {
   it("adds business days within the same week", () => {
@@ -62,5 +62,30 @@ describe("isOverdue", () => {
 describe("todayIso", () => {
   it("formats the given date as an ISO date", () => {
     expect(todayIso(new Date("2026-03-02T15:30:00Z"))).toBe("2026-03-02");
+  });
+});
+
+describe("isWithinBusinessDays", () => {
+  // 2026-03-02 is a Monday, so 5 business days ahead is Monday 2026-03-09.
+  it("is true for a deadline inside the window", () => {
+    expect(isWithinBusinessDays("2026-03-05", "2026-03-02", 5)).toBe(true);
+  });
+
+  it("includes today and the last day of the window", () => {
+    expect(isWithinBusinessDays("2026-03-02", "2026-03-02", 5)).toBe(true);
+    expect(isWithinBusinessDays("2026-03-09", "2026-03-02", 5)).toBe(true);
+  });
+
+  it("is false after the window", () => {
+    expect(isWithinBusinessDays("2026-03-10", "2026-03-02", 5)).toBe(false);
+  });
+
+  it("extends the window over weekends and holidays", () => {
+    expect(isWithinBusinessDays("2026-03-10", "2026-03-02", 5, ["2026-03-04"])).toBe(true);
+  });
+
+  it("is false for overdue or missing deadlines", () => {
+    expect(isWithinBusinessDays("2026-03-01", "2026-03-02", 5)).toBe(false);
+    expect(isWithinBusinessDays(null, "2026-03-02", 5)).toBe(false);
   });
 });

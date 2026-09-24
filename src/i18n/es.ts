@@ -2,6 +2,10 @@ export const es = {
   appTitle: "Causas",
   appSubtitle: "Gestión y seguimiento de causas",
   overdueCount: "Plazos vencidos",
+  upcoming: {
+    title: "Próximos vencimientos",
+    empty: "No hay vencimientos en los próximos días hábiles.",
+  },
   status: {
     active: "Activa",
     archived: "Archivada",
