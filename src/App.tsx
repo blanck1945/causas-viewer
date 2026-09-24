@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { CaseDetail } from "./components/CaseDetail";
 import { CaseFilters } from "./components/CaseFilters";
+import { CaseExportButton } from "./components/CaseExportButton";
 import { CaseList } from "./components/CaseList";
 import { useCases } from "./hooks/useCases";
 import { es } from "./i18n/es";
@@ -23,6 +24,7 @@ export function App() {
                 {es.overdueCount}: {overdueCount}
               </p>
               <CaseFilters filters={filters} onChange={setFilters} />
+              <CaseExportButton />
               <CaseList cases={cases} today={today} />
             </>
           }

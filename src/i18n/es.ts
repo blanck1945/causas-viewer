@@ -2,6 +2,10 @@ export const es = {
   appTitle: "Causas",
   appSubtitle: "Gestión y seguimiento de causas",
   overdueCount: "Plazos vencidos",
+  csv: {
+    button: "Exportar a CSV",
+    headers: ["Expediente", "Carátula", "Juzgado", "Estado", "Próximo vencimiento"],
+  },
   status: {
     active: "Activa",
     archived: "Archivada",
