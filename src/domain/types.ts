@@ -24,3 +24,17 @@ export interface ProceduralEntry {
   date: string;
   description: string;
 }
+
+export interface CaseNote {
+  id: string;
+  caseId: string;
+  createdAt: string;
+  text: string;
+}
+
+export interface ChecklistItem {
+  id: string;
+  caseId: string;
+  label: string;
+  done: boolean;
+}

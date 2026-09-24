@@ -46,4 +46,10 @@ describe("App", () => {
     renderAt("/cases/ca-2");
     expect(screen.getByRole("heading", { name: /concurso preventivo/ })).toBeTruthy();
   });
+
+  it("opens the workspace from the case detail", () => {
+    renderAt("/cases/ca-2");
+    fireEvent.click(screen.getByRole("link", { name: es.detail.workspaceLink }));
+    expect(screen.getByRole("heading", { name: es.workspace.title })).toBeTruthy();
+  });
 });
