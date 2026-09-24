@@ -2,6 +2,10 @@ export const es = {
   appTitle: "Causas",
   appSubtitle: "Gestión y seguimiento de causas",
   overdueCount: "Plazos vencidos",
+  reminders: {
+    empty: "No hay recordatorios pendientes.",
+    daysLeft: "días hábiles restantes",
+  },
   status: {
     active: "Activa",
     archived: "Archivada",
