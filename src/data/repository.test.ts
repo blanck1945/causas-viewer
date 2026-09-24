@@ -84,4 +84,21 @@ describe("createRepository", () => {
     expect(createLocalRepository().getCase("ca-new")).toEqual(newCase);
     expect(window.localStorage.getItem("causas.cases")).toContain("ca-new");
   });
+
+  it("adds notes and lists only those of the requested case", () => {
+    const repository = createRepository(storage);
+    repository.addNote({ id: "no-1", caseId: "ca-1", createdAt: "2026-02-01T10:00:00.000Z", text: "Llamar al cliente." });
+    repository.addNote({ id: "no-2", caseId: "ca-2", createdAt: "2026-02-02T10:00:00.000Z", text: "Revisar el balance." });
+    expect(repository.listNotes("ca-1").map((note) => note.id)).toEqual(["no-1"]);
+    expect(repository.listNotes("missing")).toEqual([]);
+  });
+
+  it("saves a checklist item and updates it in place", () => {
+    const repository = createRepository(storage);
+    const item = { id: "ck-1", caseId: "ca-1", label: "Poder", done: false };
+    repository.saveChecklistItem(item);
+    repository.saveChecklistItem({ ...item, done: true });
+    expect(repository.listChecklist("ca-1")).toEqual([{ ...item, done: true }]);
+    expect(repository.listChecklist("ca-2")).toEqual([]);
+  });
 });

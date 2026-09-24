@@ -1,4 +1,4 @@
-import type { Case, Client, ProceduralEntry } from "../domain/types";
+import type { Case, CaseNote, ChecklistItem, Client, ProceduralEntry } from "../domain/types";
 import { seedCases, seedClients, seedEntries } from "./seed";
 
 export interface Repository {
@@ -8,6 +8,10 @@ export interface Repository {
   listEntries(caseId: string): ProceduralEntry[];
   addEntry(entry: ProceduralEntry): void;
   listClients(): Client[];
+  listNotes(caseId: string): CaseNote[];
+  addNote(note: CaseNote): void;
+  listChecklist(caseId: string): ChecklistItem[];
+  saveChecklistItem(item: ChecklistItem): void;
 }
 
 type Storage = Pick<globalThis.Storage, "getItem" | "setItem">;
@@ -16,6 +20,8 @@ const KEYS = {
   cases: "causas.cases",
   clients: "causas.clients",
   entries: "causas.entries",
+  notes: "causas.notes",
+  checklist: "causas.checklist",
 } as const;
 
 function read<T>(storage: Storage, key: string): T[] | null {
@@ -62,6 +68,22 @@ export function createRepository(storage: Storage): Repository {
       write(storage, KEYS.entries, [...load<ProceduralEntry>(KEYS.entries), entry]);
     },
     listClients: () => load<Client>(KEYS.clients),
+    listNotes: (caseId) => load<CaseNote>(KEYS.notes).filter((note) => note.caseId === caseId),
+    addNote(note) {
+      write(storage, KEYS.notes, [...load<CaseNote>(KEYS.notes), note]);
+    },
+    listChecklist: (caseId) =>
+      load<ChecklistItem>(KEYS.checklist).filter((item) => item.caseId === caseId),
+    saveChecklistItem(item) {
+      const items = load<ChecklistItem>(KEYS.checklist);
+      const index = items.findIndex((existing) => existing.id === item.id);
+      if (index === -1) {
+        items.push(item);
+      } else {
+        items[index] = item;
+      }
+      write(storage, KEYS.checklist, items);
+    },
   };
 }
 
