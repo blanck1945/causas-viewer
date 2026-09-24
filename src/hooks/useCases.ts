@@ -3,6 +3,8 @@ import { createLocalRepository, type Repository } from "../data/repository";
 import { isOverdue, todayIso } from "../domain/deadlines";
 import type { Case, CaseStatus, ProceduralEntry } from "../domain/types";
 
+export type SortBy = "none" | "deadline";
+
 export interface Filters {
   status: CaseStatus | "all";
   text: string;
@@ -29,6 +31,10 @@ function matchesFilters(item: Case, filters: Filters): boolean {
   );
 }
 
+function compareByDeadline(a: Case, b: Case): number {
+  return (a.nextDeadline ?? "").localeCompare(b.nextDeadline ?? "");
+}
+
 export function useCases(options: UseCasesOptions = {}) {
   const { repository: injected } = options;
   const repository = useMemo(
@@ -40,12 +46,13 @@ export function useCases(options: UseCasesOptions = {}) {
   const allCases = useMemo(() => repository.listCases(), [repository]);
   const clients = useMemo(() => repository.listClients(), [repository]);
   const [filters, setFilters] = useState<Filters>(DEFAULT_FILTERS);
+  const [sortBy, setSortBy] = useState<SortBy>("none");
   const [, refresh] = useReducer((version: number) => version + 1, 0);
 
-  const cases = useMemo(
-    () => allCases.filter((item) => matchesFilters(item, filters)),
-    [allCases, filters],
-  );
+  const cases = useMemo(() => {
+    const filtered = allCases.filter((item) => matchesFilters(item, filters));
+    return sortBy === "deadline" ? [...filtered].sort(compareByDeadline) : filtered;
+  }, [allCases, filters, sortBy]);
   const overdueCount = useMemo(
     () => allCases.filter((item) => isOverdue(item.nextDeadline, today)).length,
     [allCases, today],
@@ -70,6 +77,8 @@ export function useCases(options: UseCasesOptions = {}) {
     clients,
     filters,
     setFilters,
+    sortBy,
+    setSortBy,
     overdueCount,
     today,
     getEntries,

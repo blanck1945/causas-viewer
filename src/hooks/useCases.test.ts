@@ -62,4 +62,24 @@ describe("useCases", () => {
       { caseId: "ca-4", date: "2026-05-20", description: "Escrito presentado." },
     ]);
   });
+
+  it("keeps the stored order when no sort is selected", () => {
+    const { result } = renderUseCases();
+    expect(result.current.sortBy).toBe("none");
+    expect(result.current.cases.map((item) => item.id)).toEqual(["ca-1", "ca-2", "ca-3", "ca-4", "ca-5"]);
+  });
+
+  it("sorts by the nearest deadline first", () => {
+    const { result } = renderUseCases();
+    act(() => result.current.setFilters({ status: "active", text: "" }));
+    act(() => result.current.setSortBy("deadline"));
+    expect(result.current.cases.map((item) => item.id)).toEqual(["ca-1", "ca-4", "ca-2"]);
+  });
+
+  it("applies the sort on top of the text filter", () => {
+    const { result } = renderUseCases();
+    act(() => result.current.setFilters({ status: "active", text: "fernández" }));
+    act(() => result.current.setSortBy("deadline"));
+    expect(result.current.cases.map((item) => item.id)).toEqual(["ca-1", "ca-4"]);
+  });
 });
