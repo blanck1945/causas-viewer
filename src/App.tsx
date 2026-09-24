@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { CaseDetail } from "./components/CaseDetail";
 import { CaseFilters } from "./components/CaseFilters";
 import { CaseList } from "./components/CaseList";
+import { CaseWorkspace } from "./components/CaseWorkspace";
 import { useCases } from "./hooks/useCases";
 import { es } from "./i18n/es";
 
@@ -28,6 +29,7 @@ export function App() {
           }
         />
         <Route path="/cases/:id" element={<CaseDetail />} />
+        <Route path="/cases/:id/workspace" element={<CaseWorkspace />} />
       </Routes>
     </main>
   );

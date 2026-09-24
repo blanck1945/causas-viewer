@@ -72,3 +72,23 @@ body {
   gap: 0.75rem;
   max-width: 28rem;
 }
+
+.workspace section {
+  margin-bottom: 2rem;
+}
+
+.workspace ul {
+  list-style: none;
+  padding: 0;
+}
+
+.checklist-item.done span {
+  text-decoration: line-through;
+  color: #52606d;
+}
+
+.note-date {
+  display: block;
+  font-size: 0.75rem;
+  color: #52606d;
+}

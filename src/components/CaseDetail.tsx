@@ -66,6 +66,7 @@ export function CaseDetail() {
       ) : (
         <p>{es.detail.unknownClient}</p>
       )}
+      <Link to={`/cases/${id}/workspace`}>{es.detail.workspaceLink}</Link>
       <EntryTimeline entries={getEntries(id)} />
       <form className="entry-form" onSubmit={handleSubmit}>
         <h2>{es.entryForm.title}</h2>
