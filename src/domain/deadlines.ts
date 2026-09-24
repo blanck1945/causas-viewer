@@ -1,3 +1,6 @@
+/** Number of business days ahead that count as an upcoming deadline. */
+export const UPCOMING_DEADLINE_DAYS = 5;
+
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 function parseIso(iso: string): Date {
@@ -49,4 +52,18 @@ export function isOverdue(deadlineIso: string | null, todayIso: string): boolean
 /** Returns the current date as an ISO date (UTC). */
 export function todayIso(now: Date = new Date()): string {
   return toIso(now);
+}
+
+/** True when the deadline is today or later, and no later than `days` business days from today. */
+export function isWithinBusinessDays(
+  deadlineIso: string | null,
+  todayIso: string,
+  days: number,
+  holidays: readonly string[] = [],
+): boolean {
+  if (deadlineIso === null || isOverdue(deadlineIso, todayIso)) {
+    return false;
+  }
+  const limit = addBusinessDays(todayIso, days, holidays);
+  return parseIso(deadlineIso).getTime() <= parseIso(limit).getTime();
 }
