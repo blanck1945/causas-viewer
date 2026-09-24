@@ -2,6 +2,18 @@ export const es = {
   appTitle: "Causas",
   appSubtitle: "Gestión y seguimiento de causas",
   overdueCount: "Plazos vencidos",
+  nav: {
+    cases: "Causas",
+    clients: "Clientes",
+  },
+  clients: {
+    title: "Clientes",
+    name: "Nombre",
+    phone: "Teléfono",
+    email: "Correo electrónico",
+    caseCount: "Causas",
+    empty: "Todavía no hay clientes cargados.",
+  },
   status: {
     active: "Activa",
     archived: "Archivada",
