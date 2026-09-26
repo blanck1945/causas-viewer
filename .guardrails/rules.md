@@ -11,6 +11,8 @@ severity: medium
 type: style
 source: CLAUDE.md
 status: active
+check: forbid-pattern: [áéíóúÁÉÍÓÚñÑ¿¡]
+exclude: src/i18n/**, src/data/seed.ts, **/*.test.ts, **/*.test.tsx
 
 Write identifiers, comments, file names, commit messages and docs in English; put all user-facing text only in src/i18n/es.ts in Spanish. Components must not hardcode UI text.
 
@@ -20,6 +22,7 @@ severity: medium
 type: style
 source: CLAUDE.md
 status: active
+check: colocated-test
 
 Every module with logic, hook or component foo.ts(x) must have a matching foo.test.ts(x) colocated next to it; a new file without its test is incomplete.
 
@@ -29,6 +32,7 @@ severity: high
 type: style
 source: CLAUDE.md
 status: active
+check: forbid-import: data/repository
 
 Components must not touch localStorage or the repository directly; they must go through hooks in src/hooks/, and hooks go through src/data/repository.ts.
 
@@ -47,5 +51,7 @@ severity: medium
 type: style
 source: CLAUDE.md
 status: active
+check: max-lines: 150
+exclude: **/*.test.tsx
 
 Keep one component per file, use function components only, and keep files under 150 lines.
