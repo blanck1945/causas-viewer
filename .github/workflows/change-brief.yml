@@ -1,0 +1,43 @@
+name: Change Brief on PR
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  publish-demo-brief:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout change-brief
+        uses: actions/checkout@v4
+        with:
+          repository: blanck1945/change-brief
+          path: change-brief
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+          cache-dependency-path: change-brief/pnpm-lock.yaml
+
+      - run: pnpm install --frozen-lockfile
+        working-directory: change-brief
+
+      - name: Post or update Change Brief comment
+        working-directory: change-brief
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          CHANGE_BRIEF_PR_NUMBER: ${{ github.event.pull_request.number }}
+          CHANGE_BRIEF_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          CHANGE_BRIEF_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          CHANGE_BRIEF_DEMO_SOURCE: jira
+        run: pnpm exec tsx scripts/github-actions-publish.ts
